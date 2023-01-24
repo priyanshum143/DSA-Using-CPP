@@ -133,19 +133,3 @@ void deletion(Node* &head, Node* &tail, int pos){
         pointer -> next = pointer -> next -> next;
     }
 }
-
-int main(){
-    Node* head = NULL;
-    Node* tail = NULL;
-
-    insertAtTail(head, tail, 0);
-    insertAtTail(head, tail, 5);
-    insertAtTail(head, tail, 10);
-    insertAtTail(head, tail, 15);
-    insertAtTail(head, tail, 20);
-
-    insertion(head, tail, 99, 0);
-    deletion(head, tail, 2);
-
-    printList(head);
-}
