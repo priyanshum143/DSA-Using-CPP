@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stack>    // Declaration of header file for stack
 #include "linked-list.cpp"
 using namespace std;
 
@@ -103,8 +104,6 @@ public:
 
 // Using STL for stack
 /*
-#include <stack>
-
 int main(){
     stack <int> st;                    // Declaration of a stack using STL
 
@@ -118,3 +117,84 @@ int main(){
     cout << st.empty() << endl;        // Function to check if a stack is empty or not
 }
 */
+
+// Prefix Evaluation
+int prefixEvaluation(string prefixStr){
+    stack <int> st;
+    
+    int len = prefixStr.length();
+    for(int i=len-1; i>=0; i--){
+        if(prefixStr[i] >= '0'  &&  prefixStr[i] <= '9'){
+            st.push(prefixStr[i] - '0');
+        }
+        else if(prefixStr[i] == '+' || prefixStr[i] == '-' || prefixStr[i] == '*' || prefixStr[i] == '/'){
+            int op1 = st.top();
+            st.pop();
+            int op2 = st.top();
+            st.pop();
+
+            int result;
+            char ch = prefixStr[i];
+            switch(ch){
+                case '+':
+                    result = op1 + op2;
+                    break;
+
+                case '-':
+                    result = op1 - op2;
+                    break;
+
+                case '*':
+                    result = op1 * op2;
+                    break;
+
+                case '/':
+                    result = op1 / op2;
+                    break;
+                }
+            st.push(result);
+        }
+    }
+    return st.top();
+}
+
+
+// Postfix Evaluation
+int postfixEvaluation(string postfixStr){
+    stack <int> st;
+
+    int len = postfixStr.length();
+    for(int i=0; i<len; i++){
+        if(postfixStr[i] >= '0'  &&  postfixStr[i] <= '9'){
+            st.push(postfixStr[i] - '0');
+        }
+        else if(postfixStr[i] == '+' || postfixStr[i] == '-' || postfixStr[i] == '*' || postfixStr[i] == '/'){
+            int op1 = st.top();
+            st.pop();
+            int op2 = st.top();
+            st.pop();
+
+            int result;
+            char ch = postfixStr[i];
+            switch(ch){
+                case '+':
+                    result = op2 + op1;
+                    break;
+
+                case '-':
+                    result = op2 - op1;
+                    break;
+
+                case '*':
+                    result = op2 * op1;
+                    break;
+
+                case '/':
+                    result = op2 / op1;
+                    break;
+            }
+            st.push(result);
+        }
+    }
+    return st.top();
+}
