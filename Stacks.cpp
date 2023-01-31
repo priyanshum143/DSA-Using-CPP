@@ -304,6 +304,28 @@ string infixToPrefix(string infixStr){
     for(int i=prefixStr.length()-1; i>=0; i--){
         finalPrefixStr += prefixStr[i];
     }
-    return finalPrefixStr;
-    
+    return finalPrefixStr;    
+}
+
+// Function to check if the given string is valid or not (string must only contain Bracetts)
+bool balancedParanthesis(string str){
+    stack <char> st;
+    for(int i=0; i<str.length(); i++){
+        if(str[i] == '[' || str[i] == '{' || str[i] == '('){
+            st.push(str[i]);
+        }
+        else if(str[i] == ']' || str[i] == '}' || str[i] == ')'){
+            if(str[i] == ']' && st.top() == '[' || str[i] == '}' && st.top() == '{' || str[i] == ')' && st.top() == '('){
+                st.pop();
+            }
+            else{
+                return false;
+            }
+        }
+    }
+
+    if(st.empty()){
+        return true;
+    }
+    return false;
 }
