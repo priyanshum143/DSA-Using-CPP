@@ -1,4 +1,4 @@
-#include <iostream>
+#include <bits/stdc++.h>
 #include <stack>    // Declaration of header file for stack
 #include "linked-list.cpp"
 using namespace std;
@@ -197,4 +197,113 @@ int postfixEvaluation(string postfixStr){
         }
     }
     return st.top();
+}
+
+// function to covert infix expression to postfix
+int prec(char op){
+    if(op == '^'){
+        return 3;
+    }
+    else if(op == '/' || op == '*'){
+        return 2;
+    }
+    else if(op == '+' || op == '-'){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+};
+
+string infixToPostfix(string infixStr){
+    stack <char> st;
+    string postfixStr;
+
+    for(int i=0; i<infixStr.length(); i++){
+        if(infixStr[i] == '('){
+            st.push(infixStr[i]);
+        }
+        else if(infixStr[i] >= 'a' && infixStr[i] <= 'z' || infixStr[i] >= 'A' && infixStr[i] <= 'Z'){
+            postfixStr += infixStr[i];   
+        }
+        else if(infixStr[i] == ')'){
+            while(!st.empty() && st.top() != '('){
+                postfixStr += st.top();
+                st.pop();
+            } 
+            if(!st.empty()){
+                st.pop();
+            }
+        }
+        else{
+            while(!st.empty() && prec(st.top()) > prec(infixStr[i])){
+                postfixStr += st.top();
+                st.pop();
+            }
+            st.push(infixStr[i]);
+        }
+    }
+    
+    while(!st.empty()){
+        postfixStr += st.top();
+        st.pop();
+    }
+    return postfixStr;
+}
+
+// Infix to prefix
+string infixToPrefix(string infixStr){
+    string reversedInfixStr;
+    for(int i=infixStr.length()-1; i>=0; i--){
+        reversedInfixStr += infixStr[i];
+    }
+
+    for(int i=0; i<reversedInfixStr.length(); i++){
+        if(reversedInfixStr[i] == ')'){
+            reversedInfixStr[i] = '('; 
+        }
+        else if(reversedInfixStr[i] == '('){
+            reversedInfixStr[i] = ')';
+        }
+    }
+
+    stack <char> st;
+    string prefixStr;
+
+    for(int i=0; i<reversedInfixStr.length(); i++){
+        if(reversedInfixStr[i] == '('){
+            st.push(reversedInfixStr[i]);
+        }
+        else if(reversedInfixStr[i] >= 'a' && reversedInfixStr[i] <= 'z' || reversedInfixStr[i] >= 'A' && reversedInfixStr[i] <= 'Z'){
+            prefixStr += reversedInfixStr[i];   
+        }
+        else if(reversedInfixStr[i] == ')'){
+            while(!st.empty() && st.top() != '('){
+                prefixStr += st.top();
+                st.pop();
+            } 
+            if(!st.empty()){
+                st.pop();
+            }
+        }
+        else{
+            while(!st.empty() && prec(st.top()) > prec(reversedInfixStr[i])){
+                prefixStr += st.top();
+                st.pop();
+            }
+            st.push(reversedInfixStr[i]);
+        }
+    }
+    
+    while(!st.empty()){
+        prefixStr += st.top();
+        st.pop();
+    }
+
+    string finalPrefixStr;
+    for(int i=prefixStr.length()-1; i>=0; i--){
+        finalPrefixStr += prefixStr[i];
+    }
+    return finalPrefixStr;
+    
 }
