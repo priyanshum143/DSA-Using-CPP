@@ -1,8 +1,8 @@
-#include <bits/stdc++.h>
-#include <stack>    // Declaration of header file for stack
+#include <iostream>
+#include <string>
+#include <stack>                      
 #include "linked-list.cpp"
 using namespace std;
-
 
 // Creating Stack using Array
 /*
@@ -104,6 +104,7 @@ public:
 
 // Using STL for stack
 /*
+#include <stack>                       // Library to use stacks
 int main(){
     stack <int> st;                    // Declaration of a stack using STL
 
@@ -158,7 +159,6 @@ int prefixEvaluation(string prefixStr){
     return st.top();
 }
 
-
 // Postfix Evaluation
 int postfixEvaluation(string postfixStr){
     stack <int> st;
@@ -199,7 +199,7 @@ int postfixEvaluation(string postfixStr){
     return st.top();
 }
 
-// function to covert infix expression to postfix
+// Infix to postfix
 int prec(char op){
     if(op == '^'){
         return 3;
@@ -304,10 +304,10 @@ string infixToPrefix(string infixStr){
     for(int i=prefixStr.length()-1; i>=0; i--){
         finalPrefixStr += prefixStr[i];
     }
-    return finalPrefixStr;    
+    return finalPrefixStr;
 }
 
-// Function to check if the given string is valid or not (string must only contain Bracetts)
+// Balanced Paranthesis Problem
 bool balancedParanthesis(string str){
     stack <char> st;
     for(int i=0; i<str.length(); i++){
