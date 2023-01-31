@@ -315,7 +315,13 @@ bool balancedParanthesis(string str){
             st.push(str[i]);
         }
         else if(str[i] == ']' || str[i] == '}' || str[i] == ')'){
-            if(str[i] == ']' && st.top() == '[' || str[i] == '}' && st.top() == '{' || str[i] == ')' && st.top() == '('){
+            if(!st.empty() && str[i] == ')' && st.top() == '('){
+                st.pop();
+            }
+            else if(!st.empty() && str[i] == '}' && st.top() == '{'){
+                st.pop();
+            }
+            else if(!st.empty() && str[i] == ']' && st.top() == '['){
                 st.pop();
             }
             else{
