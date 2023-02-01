@@ -180,3 +180,67 @@ public:
     }
 };
 */
+
+// Creating queue using stack
+/*
+#include <stack>
+class Queue{
+private:
+    stack <int> st1;
+    stack <int> st2;
+
+public:
+    void enqueue(int val){
+        if(!st2.empty()){
+            while(!st2.empty()){
+                st1.push(st2.top());
+                st2.pop();
+            }
+        }
+        st1.push(val);
+    }
+
+    void dequeue(){
+        if(st1.empty() && st2.empty()){
+            cout << "Queue Underflow" << endl;
+        }
+        else if(st2.empty()){
+            while(!st1.empty()){
+                st2.push(st1.top());
+                st1.pop();
+            }
+            st2.pop();
+        }
+        else if(!st2.empty()){
+            st2.pop();
+        }
+    }
+
+    int front(){
+        if(st1.empty() && st2.empty()){
+            cout << "Queue is Empty" << endl;
+            return -1;
+        }
+        else if(st2.empty()){
+            while(!st1.empty()){
+                st2.push(st1.top());
+                st1.pop();
+            }
+            return st2.top();
+        }
+        else if(!st2.empty()){
+            return st2.top();
+        }
+        else{
+            return -1;
+        }
+    }
+
+    bool isEmpty(){
+        if(st1.empty() && st2.empty()){
+            return true;
+        }
+        return false;
+    }
+};
+*/
