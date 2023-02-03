@@ -116,6 +116,77 @@ int levelSum(Node* &root, int level){
     return sum;
 }
 
+// Function to count the number of nodes in a binary tree
+int countNodes(Node* root){
+    if(root == NULL){
+        return 0;
+    }
+    return countNodes(root -> left) + countNodes(root -> right) + 1;
+}
+
+// Function to find sum of all nodes in a binary tree
+int sumNodes(Node* root){
+    if(root == NULL){
+        return 0;
+    }
+    return sumNodes(root -> left) + sumNodes(root -> right) + root -> data;
+}
+
+// Function to find the max height of the binary tree
+int calHeight(Node* root){
+    if(root == NULL){
+        return 0;
+    }
+    int lHeight = calHeight(root -> left);
+    int rHeight = calHeight(root -> right);
+    return max(lHeight, rHeight) + 1;
+}
+
+// Function to find the diameter of a binary tree
+int calDiamter(Node* root){
+    if(root == NULL){
+        return 0;
+    }
+
+    int lheight = calHeight(root -> left);
+    int rheight = calHeight(root -> right);
+    int curr_diameter = lheight + rheight + 1;
+
+    int ldiameter = calDiamter(root -> left);
+    int rdiameter = calDiamter(root -> right);
+
+    return max(curr_diameter, max(ldiameter, rdiameter)); 
+}
+
+// Sum replacement in binary tree
+void sumReplacement(Node* root){
+    if(root == NULL){
+        return;
+    }
+
+    root -> data = sumNodes(root -> left) + sumNodes(root -> right) + root -> data;
+    sumReplacement(root -> left);
+    sumReplacement(root -> right);
+
+}
+
+// Function to check if a binary tree is balanced or not
+bool isBalanced(Node* root){
+    if(root == NULL) return true;
+
+    if(isBalanced(root -> left) == false) return false;
+    if(isBalanced(root -> right) == false) return false;
+
+    int lh = calHeight(root -> left);
+    int rh = calHeight(root -> right);
+    if(abs(rh - lh) <= 1){
+        return true;
+    }
+    else{
+        return false;
+    } 
+}
+
 // Function to build a tree using preorder and inorder array
 int search(int *inorder, int start, int end, int targetEle){
     for(int i=start; i<=end; i++){
