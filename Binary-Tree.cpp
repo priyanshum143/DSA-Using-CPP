@@ -167,7 +167,6 @@ void sumReplacement(Node* root){
     root -> data = sumNodes(root -> left) + sumNodes(root -> right) + root -> data;
     sumReplacement(root -> left);
     sumReplacement(root -> right);
-
 }
 
 // Function to check if a binary tree is balanced or not
@@ -236,4 +235,46 @@ Node* makeTree(int *postorder, int *inorder, int start, int end){
     root -> left = makeTree(postorder, inorder, start, pos-1);
 
     return root;
+}
+
+// Function to find right view of a binary tree
+void rightView(Node* root){
+    if(root == NULL) return;
+
+    queue <Node*> que;
+    que.push(root);
+
+    while(!que.empty()){
+        int size = que.size();
+        for(int i=0; i<size; i++){
+            Node* curr = que.front();
+            que.pop();
+
+            if(i == size-1) cout << curr -> data << " ";
+
+            if(curr -> left) que.push(curr -> left);
+            if(curr -> right ) que.push(curr -> right);
+        }
+    }                                                                                                                                                                                                                                                                                                                             
+}
+
+// Function to find left view of a binary tree
+void leftView(Node* root){
+    if(root == NULL) return;
+
+    queue <Node*> que;
+    que.push(root);
+
+    while(!que.empty()){
+        int size = que.size();
+        for(int i=0; i<size; i++){
+            Node* curr = que.front();
+            que.pop();
+
+            if(i == 0) cout << curr -> data << " ";
+
+            if(curr -> left) que.push(curr -> left);
+            if(curr -> right ) que.push(curr -> right);
+        }
+    }                                                                                                                                                                                                                                                                                                                             
 }
