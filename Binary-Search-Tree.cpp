@@ -33,6 +33,57 @@ void preorder(Node* root){
     preorder(root -> right);
 }
 
+// Function to print BST in zig zag level order traversal
+#include <stack>
+#include <queue>
+void zigzagTraversal(Node* root){
+    queue <Node*> que;
+    stack <Node*> st;
+    int level = 0;
+
+    que.push(root);
+    que.push(NULL);
+
+    while(!que.empty()){
+        if(level % 2 == 0){
+            Node* node = que.front();
+            que.pop();
+
+            if(node != NULL){
+                cout << node -> data << " ";
+                if(node -> left) que.push(node -> left);
+                if(node -> right) que.push(node -> right);
+            }
+            else{
+                if(!que.empty()){ 
+                    que.push(NULL);
+                    level++;
+                }
+            }
+        }
+        else{
+            Node* node = que.front();
+            que.pop();
+            
+            if(node != NULL){
+                st.push(node);
+                if(node -> left) que.push(node -> left);
+                if(node -> right) que.push(node -> right);
+            }
+            else{
+                while(!st.empty()){
+                    cout << st.top() -> data << " ";
+                    st.pop();
+                }
+                if(!que.empty()){
+                    que.push(NULL);
+                    level++;
+                }
+            }
+        }
+    }
+}
+
 // Function to insert a node in BST
 Node* insertBST(Node* root, int val){
     Node* nodeToInsert = new Node(val);
@@ -91,6 +142,17 @@ Node* construcBST(int *preorder, int size){
     return root;
 }
 
+// function to create a height balanced BST from a sorted array
+Node* arrayToBST(int *arr, int start, int end){
+    if(start > end) return NULL;
+
+    int mid = (start + end)/2;
+    Node* root = new Node(arr[mid]);
+    root -> left = arrayToBST(arr, start, mid-1);
+    root -> right = arrayToBST(arr, mid+1, end);
+    return root;
+}
+
 // Function to check if a given binary tree is BST or not
 bool checkBST(Node* root, Node* min, Node* max){
     if(root == NULL) return true;
@@ -102,3 +164,31 @@ bool checkBST(Node* root, Node* min, Node* max){
     bool rightValid = checkBST(root->right, root, max);
     return (leftValid and rightValid);
 }
+
+// Function to check if two BST's are identical or not
+bool isIdentical(Node* root1, Node* root2){
+    if(root1 == NULL && root2 == NULL) return true;
+    else if(root1 == NULL || root2 == NULL) return false;
+
+    else{
+        bool cond1 = root1->data == root2->data;
+        bool cond2 = isIdentical(root1->left, root2->left);
+        bool cond3 = isIdentical(root1->right, root2->right);
+
+        if(cond1 && cond2 && cond3) return true;
+        return false;
+    }
+}
+
+// Function to find catalan number 
+/*
+int catalan(int n){
+    if(n <= 1) return 1;
+
+    int res = 0;
+    for(int i=0; i<n; i++){
+        res += catalan(i)*catalan(n-i-1);
+    }
+    return res;
+}
+*/ // Ignore this
