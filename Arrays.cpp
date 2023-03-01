@@ -52,27 +52,15 @@ void bubbleSort(int arr[], int size){
     }
 }
 
-void insertion(int arr[], int size, int val, int pos){
-    for(int i=size; i>pos; i--){
-        arr[i] = arr[i-1];
-    }
+void insertion(int *arr, int &size, int val, int pos){
+    for(int i=size; i>pos; i--) arr[i] = arr[i-1];
     arr[pos] = val;
-
-    for(int i=0; i<=size; i++){
-        cout << arr[i] << " ";
-    }
-    cout << endl;
+    size++;
 }
 
-void deletion(int arr[], int size, int pos){
-    for(int i=pos; i<size; i++){
-        arr[i] = arr[i+1];
-    }
-
-    for(int i=0; i<size-1; i++){
-        cout << arr[i] << " ";
-    }
-    cout << endl;
+void deletion(int *arr, int &size, int pos){
+    for(int i=pos; i<size; i++) arr[i] = arr[i+1];
+    size--;
 }
 
 int maxEle(int arr[], int size){
