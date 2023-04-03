@@ -135,30 +135,6 @@ int longestArthematicSubarray(int *arr, int len){
     return maxLen;
 }
 
-int recordBreaker(int *arr, int len){
-    int currMax = INT16_MIN;
-    int days = 0;
-
-    for(int i=0; i<len; i++){
-        if(i == 0){
-            if(arr[i] > arr[i+1]){
-                days++;
-                currMax = arr[i];
-            }
-        } 
-        else if(i == len - 1 && currMax < arr[i]){
-            days++;
-        } 
-        else{
-            if(arr[i] > currMax){
-                days++;
-                currMax = arr[i];
-            }
-        }
-    }
-    return days;
-}
-
 int firstRepeatingEle(int *arr, int len){
     for(int i=0; i<len; i++){
         for(int j=i+1; j<len; j++){
