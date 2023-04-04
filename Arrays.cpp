@@ -1,6 +1,13 @@
 #include <iostream>
 using namespace std;
 
+void printArray(int *arr, int size){
+    for(int i=0; i<size; i++){
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+}
+
 int linearSearch(int arr[], int size, int targetEle){
     for(int i=0; i<size; i++){
         if(arr[i] == targetEle){
@@ -146,6 +153,14 @@ int firstRepeatingEle(int *arr, int len){
     return -1;
 }
 
+int findUnique(int *arr, int size){
+    int ans = 0;
+    for(int i=0; i<size; i++){
+        ans = ans ^ arr[i];
+    }
+    return ans;
+}
+
 int firstMissingPositive(int *arr, int len){
     for(int i=1; i<=len; i++){
     bool flag = false;
@@ -158,4 +173,13 @@ int firstMissingPositive(int *arr, int len){
         if(flag == false) return i;
     }
     return (len+1);
+}
+
+void swapAlternate(int *arr, int size){
+    if(size % 2 == 0){
+        for(int i=0; i<size; i+=2) swap(arr[i],arr[i+1]);
+    }
+    else{
+        for(int i=0; i<size-1; i+=2) swap(arr[i],arr[i+1]);
+    }
 }
