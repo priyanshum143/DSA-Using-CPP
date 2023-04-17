@@ -8,9 +8,7 @@ void printArray(int *arr, int size){
 
 int linearSearch(int arr[], int size, int targetEle){
     for(int i=0; i<size; i++){
-        if(arr[i] == targetEle){
-            return i;
-        }
+        if(arr[i] == targetEle) return i;
     }
     return -1;
 }
@@ -20,15 +18,9 @@ int binarySearch(int arr[], int size, int targetEle){
     int end = size-1;
     while(start <= end){
         int middle = (start+end)/2;
-        if(arr[middle] == targetEle){
-            return middle;
-        }
-        else if(arr[middle] < targetEle){
-            start = middle + 1;
-        }
-        else{
-            end = middle - 1;
-        }
+        if(arr[middle] == targetEle) return middle;
+        else if(arr[middle] < targetEle) start = middle + 1;
+        else end = middle - 1;
     }
     return -1;
 }
@@ -51,6 +43,43 @@ void bubbleSort(int arr[], int size){
     }
 }
 
+void merge(int *arr, int start, int end){
+    int mid = (start + end)/2;
+
+    int len1 = mid - start + 1;
+    int len2 = end - mid;
+
+    int *firstArr = new int[len1];
+    int *secondArr = new int[len2];
+
+    int idx = start;
+    for(int i=0; i<len1; i++) firstArr[i] = arr[idx++];
+
+    idx = mid + 1;
+    for(int i=0; i<len2; i++) secondArr[i] = arr[idx++];
+
+    idx = start;
+    int ptr1 = 0, ptr2 = 0;
+    while(ptr1 < len1 && ptr2 < len2){
+        if(firstArr[ptr1] < secondArr[ptr2]) arr[idx++] = firstArr[ptr1++];
+        else arr[idx++] = secondArr[ptr2++];
+    }
+
+    while(ptr1 < len1) arr[idx++] = firstArr[ptr1++];
+
+    while(ptr2 < len2) arr[idx++] = secondArr[ptr2++];
+}
+
+void mergeSort(int *arr, int start, int end){
+    if(start >= end) return;
+
+    int mid = (start + end)/2;
+    mergeSort(arr, start, mid);
+    mergeSort(arr, mid+1, end);
+
+    merge(arr, start, end);
+}
+
 void insertion(int *arr, int &size, int val, int pos){
     for(int i=size; i>pos; i--) arr[i] = arr[i-1];
     arr[pos] = val;
@@ -65,9 +94,7 @@ void deletion(int *arr, int &size, int pos){
 int maxEle(int arr[], int size){
     int max = INT16_MIN;
     for(int i=0; i<size; i++){
-        if(arr[i] > max){
-            max = arr[i];
-        }
+        if(arr[i] > max) max = arr[i];
     }
     return max;
 }
@@ -75,9 +102,7 @@ int maxEle(int arr[], int size){
 int minEle(int arr[], int size){
     int min = INT16_MAX;
     for(int i=0; i<size; i++){
-        if(arr[i] < min){
-            min = arr[i];
-        }
+        if(arr[i] < min) min = arr[i];
     }
     return min;
 }
@@ -96,23 +121,18 @@ void maxTillIdx(int *arr, int len){
             res[i] = arr[i];
             currMax = arr[i];
         }
-        else{
-            res[i] = currMax;
-        }
+        else res[i] = currMax;
+        
     }
 
-    for(int i=0; i<len; i++){
-        cout << res[i] << " ";
-    }
+    for(int i=0; i<len; i++) cout << res[i] << " ";
 }
 
 void sumOfSubarrays(int *arr, int len){
     for(int i=0; i<len; i++){   
         for(int j=i; j<len; j++){
             int sum = 0;
-            for(int k=i; k<=j; k++){
-                sum = sum + arr[k];  
-            }
+            for(int k=i; k<=j; k++) sum = sum + arr[k];  
             cout << sum << " ";
         }
     }
@@ -137,9 +157,7 @@ int longestArthematicSubarray(int *arr, int len){
 int firstRepeatingEle(int *arr, int len){
     for(int i=0; i<len; i++){
         for(int j=i+1; j<len; j++){
-            if(arr[i] == arr[j]){
-                return i;
-            }
+            if(arr[i] == arr[j]) return i;
         }
     }
     return -1;
@@ -147,9 +165,7 @@ int firstRepeatingEle(int *arr, int len){
 
 int findUnique(int *arr, int size){
     int ans = 0;
-    for(int i=0; i<size; i++){
-        ans = ans ^ arr[i];
-    }
+    for(int i=0; i<size; i++) ans = ans ^ arr[i];
     return ans;
 }
 
