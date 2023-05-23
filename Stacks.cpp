@@ -1,6 +1,4 @@
-#include <iostream>
-#include <string>
-#include <stack>                      
+#include <bits/stdc++.h>                   
 #include "linked-list.cpp"
 using namespace std;
 
@@ -335,3 +333,109 @@ bool balancedParanthesis(string str){
     }
     return false;
 }
+
+// Next Smaller Element
+vector<int> nextSmallerElement(vector<int> vec, int size){
+    vector<int> ans(size);
+
+    stack<int> st;
+    st.push(-1);
+
+    for(int i=size-1; i>=0; i--){
+        int curr = vec[i];
+        while(st.top() != -1 && st.top() > curr) st.pop();
+        ans[i] = st.top();
+        st.push(curr);
+    }
+
+    return ans;
+}
+
+// The celebrity problem
+int celebrity(vector<vector<int>> &vec, int n) {
+    stack<int> st;
+    for(int i=0; i<n; i++) st.push(i);
+        
+    while(st.size() > 1){
+        int per1 = st.top();
+        st.pop();
+            
+        int per2 = st.top();
+        st.pop();
+            
+        if(vec[per1][per2] == 1) st.push(per2);  // Person 1 knows Person 2
+        else st.push(per1);
+    }
+    int candidate = st.top();
+        
+    bool rowCheck = false;
+    int zeroCount = 0;
+    for(int i=0; i<n; i++){
+        if(vec[candidate][i] == 0) zeroCount++;
+    }
+    if(zeroCount == n) rowCheck = true;
+        
+    bool colCheck = false;
+    int oneCount = 0;
+    for(int i=0; i<n; i++){
+        if(vec[i][candidate] == 1) oneCount++;
+    }
+    if(oneCount + 1 == n) colCheck = true;
+        
+    if(rowCheck && colCheck) return candidate;
+    return -1;
+}
+
+// Special Stack
+class SpecialStack{
+private:
+    stack<int> st;
+    int mini;
+
+public:
+    void push(int data){
+        if(st.empty()){
+            st.push(data);
+            mini = data;
+        }
+        else{
+            if(data < mini){
+                int val = 2*data - mini;
+                st.push(val);
+                mini = data;
+            }
+            else st.push(data);
+        }
+    }
+
+    int pop(){
+        if(st.empty()) return -1;
+
+        int curr = st.top();
+        st.pop();
+        if(curr > mini) return curr;
+        else{
+            int prevMini = mini;
+            int val = 2*mini - curr;
+            mini = val;
+            return prevMini;
+        }
+    }
+
+    bool isEmpty(){
+        return st.empty();
+    }
+
+    int top(){
+        if(st.empty()) return -1;
+
+        int curr = st.top();
+        if(curr < mini) return mini;
+        return curr;
+    }
+
+    int getMin(){
+        if(st.empty()) return -1;
+        return mini;
+    }
+};
