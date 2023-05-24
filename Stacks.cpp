@@ -334,6 +334,73 @@ bool balancedParanthesis(string str){
     return false;
 }
 
+// Delete middle element from a stack
+void solve(stack<int> &st, int size, int count){
+    if(count == size/2){
+        st.pop();
+        return;
+    }
+
+    int num = st.top();
+    st.pop();
+
+    solve(st, size, count+1);
+    st.push(num);
+}
+
+void deleteMiddle(stack<int> &st, int size){
+    solve(st, size, 0);
+}
+
+// Insert an element at the bottom of the stack
+void insertAtBottom(stack<int> &st, int val){
+    if(st.size() == 0){
+        st.push(val);
+        return;
+    }
+
+    int num = st.top();
+    st.pop();
+
+    insertAtBottom(st, val);
+    st.push(num);
+}
+
+// Reverse a stack
+void reverseStack(stack<int> &st){
+    if(st.empty()) return;
+
+    int num = st.top();
+    st.pop();
+
+    reverseStack(st);
+    insertAtBottom(st, num);
+}
+
+// Sort a stack
+void sortedInsert(stack<int> &st, int num){
+    if(st.empty() || st.top() < num){
+        st.push(num);
+        return;
+    }
+
+    int n = st.top();
+    st.pop();
+
+    sortedInsert(st, num);
+    st.push(n);
+}
+
+void sortStack(stack<int> &st){
+    if(st.empty()) return;
+
+    int num = st.top();
+    st.pop();
+
+    sortStack(st);
+    sortedInsert(st, num);
+}
+
 // Next Smaller Element
 vector<int> nextSmallerElement(vector<int> vec, int size){
     vector<int> ans(size);
