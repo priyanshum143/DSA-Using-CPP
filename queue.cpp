@@ -1,10 +1,10 @@
-#include <iostream>
+#include <bits/stdc++.h>
 #include "linked-list.cpp"
 using namespace std;
 
 // Creating queue using Array
 /*
-class queue{
+class Queue{
 private:
     int *arr;
     int size;
@@ -12,7 +12,7 @@ private:
     int rear;
 
 public:
-    queue(int val){
+    Queue(int val){
         arr = new int[val];
         size = val;
         front = 0;
@@ -62,7 +62,7 @@ public:
 
 // Creating Circular queue using array
 /*
-class circularQueue{
+class CircularQueue{
 private:
     int *arr;
     int size;
@@ -70,7 +70,7 @@ private:
     int rear;
 
 public:
-    circularQueue(int val){
+    CircularQueue(int val){
         arr = new int[val];
         size = val;
         front = -1;
@@ -244,3 +244,43 @@ public:
     }
 };
 */
+
+// Reverse a Queue
+void reverseQueue(queue<int> &que){
+    stack<int> st;
+
+    while(!(que.empty())){
+        st.push(que.front());
+        que.pop();
+    }
+
+    while(!(st.empty())){
+        que.push(st.top());
+        st.pop();
+    }
+}
+
+// First Non repeating charater in a steam
+string FirstNonRepeating(string A){
+	unordered_map <char, int> count;
+    queue<char> que;
+    string ans = "";
+	    
+    for(int i=0; i<A.length(); i++){
+        char ch = A[i];
+        count[ch]++;
+        que.push(ch);
+	        
+        while(!que.empty()){
+            if(count[que.front()] > 1) que.pop();
+            else{
+               ans.push_back(que.front());
+               break;
+            } 
+        }
+
+        if(que.empty()) ans.push_back('#');
+    }
+	    
+    return ans;
+}
