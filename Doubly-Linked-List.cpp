@@ -2,17 +2,15 @@
 using namespace std;
 
 // Creating a class names "Node"
-class Node
-{
+class Node{
 public:
     Node* prev;
     int data;
     Node* next;
 
     Node(int val){
-        prev = NULL;
         data = val;
-        next = NULL;
+        next = prev = NULL;
     }
 };
 
@@ -44,6 +42,16 @@ void insertAtTail(Node* &head, Node* &tail, int val){
     }
 }
 
+// Function to print the list
+void printList(Node* &head, Node* &tail){
+    Node* pointer = head;
+    while(pointer != NULL){
+        cout << pointer -> data << " ";
+        pointer = pointer -> next;
+    }
+    cout << endl;
+}
+
 // Function to find the length of list
 int lengthOfList(Node* &head, Node* &tail){
     int len = 0;
@@ -55,16 +63,6 @@ int lengthOfList(Node* &head, Node* &tail){
     return len;
 }
 
-// Function to print the list
-void printList(Node* &head){
-    Node* pointer = head;
-    while(pointer != NULL){
-        cout << pointer -> data << " ";
-        pointer = pointer -> next;
-    }
-    cout << endl;
-}
-
 // Function to insert the element at given position
 void insertion(Node* &head, Node* &tail, int val, int pos){
     if(pos <= 0){
@@ -73,7 +71,7 @@ void insertion(Node* &head, Node* &tail, int val, int pos){
     }
 
     int len = lengthOfList(head, tail);
-    if(pos > len){
+    if(pos >= len){
         insertAtTail(head, tail, val);
         return;
     }
@@ -92,7 +90,10 @@ void insertion(Node* &head, Node* &tail, int val, int pos){
     else{
         Node* nodeToInsert = new Node(val);
         nodeToInsert -> next = pointer -> next;
+        pointer -> next -> prev = nodeToInsert;
+
         pointer -> next = nodeToInsert;
+        nodeToInsert -> prev = pointer;
     }
 }
 
@@ -107,14 +108,15 @@ void insertionViaInput(Node* &head, Node* &tail, int size){
 
 // Function to delete element the element of given position
 void deletion(Node* &head, Node* &tail, int pos){
-    if(pos <= 0){
-        head = head -> next;
+    int len = lengthOfList(head, tail);
+    if(pos < 0 || pos >= len){
+        cout << "This position does not exist in the given linked list" << endl;
         return;
     }
 
-    int len = lengthOfList(head, tail);
-    if(pos > len - 1){
-        cout << "This position does not exist in the given linked list" << endl;
+    if(pos == 0){
+        head = head -> next;
+        head -> prev = NULL;
         return;
     }
 
@@ -127,9 +129,11 @@ void deletion(Node* &head, Node* &tail, int pos){
 
     if(pointer -> next -> next == NULL){
         pointer -> next = NULL;
+        tail -> prev = NULL;
         tail = pointer;
     }
     else{
         pointer -> next = pointer -> next -> next;
+        pointer -> next -> prev = pointer;
     }
 }
