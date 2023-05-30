@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// Function to convert binary number into decimal number
 int binaryToDecimal(int binNum){
     int decNum = 0;
     int base = 0;
@@ -13,6 +14,7 @@ int binaryToDecimal(int binNum){
     return decNum;
 }
 
+// Function to convert octal number into decimal number
 int octalToDecimal(int octalNum){
     int decNum = 0;
     int base = 0;
@@ -25,6 +27,7 @@ int octalToDecimal(int octalNum){
     return decNum;
 }
 
+// Function to convert hexadecimal number into decimal number
 int hexadecToDecimal(string hexadecNum){
     int decNum = 0;
     int base = 0;
@@ -36,13 +39,17 @@ int hexadecToDecimal(string hexadecNum){
         }
         else if(hexadecNum[i] >= 'A' && hexadecNum[i] <= 'F'){
             decNum = decNum + (pow(16, base++) * ((hexadecNum[i] - 'A') + 10));
+        }
+        else if(hexadecNum[i] >= 'a' && hexadecNum[i] <= 'f'){
+            decNum = decNum + (pow(16, base++) * ((hexadecNum[i] - 'a') + 10));
         } 
     }
     return decNum;
 }
 
-int decimalToBinary(int decNum){
-    int binNum = 0;
+// Function to convert decimal number into binary number
+long long decimalToBinary(int decNum){
+    long long binNum = 0;
     int base = 0;
 
     while(decNum != 0){
@@ -53,6 +60,7 @@ int decimalToBinary(int decNum){
     return binNum;
 }
 
+// Function to convert decimal number into octal number
 int decimalToOctal(int decNum){
     int octalNum = 0;
     int base = 0;
@@ -65,6 +73,7 @@ int decimalToOctal(int decNum){
     return octalNum;
 }
 
+// Function to convert decimal number into hexadecimal number
 string decimalToHexadec(int decNum){
     string hexadecimal = "";
     while(decNum != 0){
@@ -77,6 +86,5 @@ string decimalToHexadec(int decNum){
         hexadecimal = hexaDigit + hexadecimal;
         decNum = decNum / 16;
     }
-
     return hexadecimal;
 }
