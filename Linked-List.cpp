@@ -39,11 +39,21 @@ void insertAtTail(Node* &head, Node* &tail, int val){
     }
 }
 
+// Function to print the linked list
+void printList(Node* &head, Node* &tail){
+    Node* pointer = head;
+    while(pointer != NULL){
+        cout << pointer -> data << " ";
+        pointer = pointer -> next;
+    }
+    cout << endl;
+}
+
 // Function to find the length of list
 int lengthOfList(Node* &head, Node* &tail){
     int len = 0;
     Node* pointer = head;
-    while(pointer != NULL){
+    while(pointer){
         len++;
         pointer = pointer -> next;
     }
@@ -58,7 +68,7 @@ void insertion(Node* &head, Node* &tail, int val, int pos){
     }
 
     int len = lengthOfList(head, tail);
-    if(pos > len){
+    if(pos >= len){
         insertAtTail(head, tail, val);
         return;
     }
@@ -83,7 +93,7 @@ void insertion(Node* &head, Node* &tail, int val, int pos){
 
 // Function to insert elements via input
 void insertionViaInput(Node* &head, Node* &tail, int size){
-    for(int curPos = 0; curPos < size; curPos++){
+    for(int curPos = 0; curPos<size; curPos++){
         int eleToInsert;
         cin >> eleToInsert;
         insertAtTail(head, tail, eleToInsert);
@@ -92,14 +102,14 @@ void insertionViaInput(Node* &head, Node* &tail, int size){
 
 // Function to delete element the element of given position
 void deletion(Node* &head, Node* &tail, int pos){
-    if(pos <= 0){
-        head = head -> next;
+    int len = lengthOfList(head, tail);
+    if(pos < 0 || pos >= len){
+        cout << "This position does not exist in the given linked list" << endl;
         return;
     }
 
-    int len = lengthOfList(head, tail);
-    if(pos > len - 1){
-        cout << "This position does not exist in the given linked list" << endl;
+    if(pos == 0){
+        head = head -> next;
         return;
     }
 
@@ -119,18 +129,8 @@ void deletion(Node* &head, Node* &tail, int pos){
     }
 }
 
-// Function to print the linked list
-void printList(Node* &head, Node* &tail){
-    Node* pointer = head;
-    while(pointer != NULL){
-        cout << pointer -> data << " ";
-        pointer = pointer -> next;
-    }
-    cout << endl;
-}
-
 // Function to reverse the given list
-void reverse(Node* &head, Node* &tail){
+void reverseList(Node* &head, Node* &tail){
     Node* pointer1 = NULL;
     Node* pointer2 = head;
     Node* pointer3 = head -> next;
@@ -149,7 +149,7 @@ void reverse(Node* &head, Node* &tail){
 }
 
 // Function to find the max Element of the list
-int findMax(Node* head){
+int findMax(Node* head, Node* &tail){
     Node* pointer = head;
     int maxEle = INT16_MIN;
 
@@ -163,7 +163,7 @@ int findMax(Node* head){
 }
 
 // Function to find the minimum element of the list
-int findMin(Node* head){
+int findMin(Node* head, Node* &tail){
     Node* pointer = head;
     int minEle = INT16_MAX;
 
@@ -177,29 +177,21 @@ int findMin(Node* head){
 }
 
 // Function to find the middle element of the list
-int middleEle(Node* &head, Node* &tail){
-    Node* pointer = head;
+int findMiddle(Node* &head, Node* &tail){
     int len = lengthOfList(head, tail);
-    int middlePos = (int(len/2));
-    int curPos = 1;
+    int middlePos = len/2;
 
-    if(len % 2 == 0){
-        while(curPos < middlePos){
-            pointer = pointer -> next;
-            curPos++;
-        }
+    int curPos = 0;
+    Node* pointer = head;
+    while(curPos < middlePos){
+        pointer = pointer -> next;
+        curPos++;
     }
-    else{
-        while(curPos <= middlePos){
-            pointer = pointer -> next;
-            curPos++;
-        }
-    }
-    return pointer -> data;
+    return pointer->data;
 }
 
 // Function to merge two sorted linked list
-void mergeList(Node* &head1, Node* &head2){
+pair<Node*, Node*> mergeList(Node* &head1, Node* &head2){
     Node* pointer1 = head1;
     Node* pointer2 = head2;
 
@@ -211,7 +203,7 @@ void mergeList(Node* &head1, Node* &head2){
             insertAtTail(newHead, newTail, pointer1 -> data);
             pointer1 = pointer1 -> next;
         }
-        else if(pointer2 -> data < pointer1 -> data){
+        else{
             insertAtTail(newHead, newTail, pointer2 -> data);
             pointer2 = pointer2 -> next;
         }
@@ -226,7 +218,9 @@ void mergeList(Node* &head1, Node* &head2){
         insertAtTail(newHead, newTail, pointer2 -> data);
         pointer2 = pointer2 -> next;
     }
-    printList(newHead, newTail);
+    
+    pair<Node*, Node*> newList = make_pair(newHead, newTail);
+    return newList;
 }
 
 // Function to detect cycles in list
