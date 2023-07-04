@@ -146,7 +146,7 @@ public:
     }
 };
 
-// Function to convert a BST into  Max-Heap
+// Function to convert a BST into Max-Heap
 class BSTToMaxHeap{
 private:
     void inorder(Node* root, vector<int> &inorderVec){
