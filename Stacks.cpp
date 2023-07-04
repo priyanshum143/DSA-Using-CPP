@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>                   
-#include "linked-list.cpp"
+#include "Linked-List.cpp"
 using namespace std;
 
 // Creating Stack using Array
@@ -198,112 +198,101 @@ int postfixEvaluation(string postfixStr){
 }
 
 // Infix to postfix
-int prec(char op){
-    if(op == '^'){
-        return 3;
-    }
-    else if(op == '/' || op == '*'){
-        return 2;
-    }
-    else if(op == '+' || op == '-'){
-        return 1;
-    }
-    else{
+class InToPost{
+private:
+    int prec(char op){
+        if(op == '^') return 3;
+        else if(op == '/' || op == '*') return 2;
+        else if(op == '+' || op == '-') return 1;
         return 0;
+    }
+
+public:
+    string infixToPostfix(string infixStr){
+        stack <char> st;
+        string postfixStr;
+
+        for(int i=0; i<infixStr.length(); i++){
+            if(infixStr[i] == '(') st.push(infixStr[i]);
+            else if(infixStr[i] >= 'a' && infixStr[i] <= 'z' || infixStr[i] >= 'A' && infixStr[i] <= 'Z') postfixStr += infixStr[i];   
+            else if(infixStr[i] == ')'){
+                while(!st.empty() && st.top() != '('){
+                    postfixStr += st.top();
+                    st.pop();
+                } 
+                if(!st.empty()){
+                    st.pop();
+                }
+            }
+            else{
+                while(!st.empty() && prec(st.top()) > prec(infixStr[i])){
+                    postfixStr += st.top();
+                    st.pop();
+                }
+                st.push(infixStr[i]);
+            }
+        }
+        
+        while(!st.empty()){
+            postfixStr += st.top();
+            st.pop();
+        }
+        return postfixStr;
     }
 };
 
-string infixToPostfix(string infixStr){
-    stack <char> st;
-    string postfixStr;
-
-    for(int i=0; i<infixStr.length(); i++){
-        if(infixStr[i] == '('){
-            st.push(infixStr[i]);
-        }
-        else if(infixStr[i] >= 'a' && infixStr[i] <= 'z' || infixStr[i] >= 'A' && infixStr[i] <= 'Z'){
-            postfixStr += infixStr[i];   
-        }
-        else if(infixStr[i] == ')'){
-            while(!st.empty() && st.top() != '('){
-                postfixStr += st.top();
-                st.pop();
-            } 
-            if(!st.empty()){
-                st.pop();
-            }
-        }
-        else{
-            while(!st.empty() && prec(st.top()) > prec(infixStr[i])){
-                postfixStr += st.top();
-                st.pop();
-            }
-            st.push(infixStr[i]);
-        }
-    }
-    
-    while(!st.empty()){
-        postfixStr += st.top();
-        st.pop();
-    }
-    return postfixStr;
-}
-
 // Infix to prefix
-string infixToPrefix(string infixStr){
-    string reversedInfixStr;
-    for(int i=infixStr.length()-1; i>=0; i--){
-        reversedInfixStr += infixStr[i];
+class InToPre{
+private:
+    int prec(char op){
+        if(op == '^') return 3;
+        else if(op == '/' || op == '*') return 2;
+        else if(op == '+' || op == '-') return 1;
+        return 0;
     }
 
-    for(int i=0; i<reversedInfixStr.length(); i++){
-        if(reversedInfixStr[i] == ')'){
-            reversedInfixStr[i] = '('; 
-        }
-        else if(reversedInfixStr[i] == '('){
-            reversedInfixStr[i] = ')';
-        }
-    }
+public:
+    string infixToPrefix(string infixStr){
+        string reversedInfixStr;
+        for(int i=infixStr.length()-1; i>=0; i--) reversedInfixStr += infixStr[i];
 
-    stack <char> st;
-    string prefixStr;
+        for(int i=0; i<reversedInfixStr.length(); i++){
+            if(reversedInfixStr[i] == ')') reversedInfixStr[i] = '('; 
+            else if(reversedInfixStr[i] == '(') reversedInfixStr[i] = ')';
+        }
 
-    for(int i=0; i<reversedInfixStr.length(); i++){
-        if(reversedInfixStr[i] == '('){
-            st.push(reversedInfixStr[i]);
-        }
-        else if(reversedInfixStr[i] >= 'a' && reversedInfixStr[i] <= 'z' || reversedInfixStr[i] >= 'A' && reversedInfixStr[i] <= 'Z'){
-            prefixStr += reversedInfixStr[i];   
-        }
-        else if(reversedInfixStr[i] == ')'){
-            while(!st.empty() && st.top() != '('){
-                prefixStr += st.top();
-                st.pop();
-            } 
-            if(!st.empty()){
-                st.pop();
+        stack <char> st;
+        string prefixStr;
+
+        for(int i=0; i<reversedInfixStr.length(); i++){
+            if(reversedInfixStr[i] == '(') st.push(reversedInfixStr[i]);
+            else if(reversedInfixStr[i] >= 'a' && reversedInfixStr[i] <= 'z' || reversedInfixStr[i] >= 'A' && reversedInfixStr[i] <= 'Z') prefixStr += reversedInfixStr[i];
+            else if(reversedInfixStr[i] == ')'){
+                while(!st.empty() && st.top() != '('){
+                    prefixStr += st.top();
+                    st.pop();
+                } 
+                if(!st.empty()) st.pop();
+            }
+            else{
+                while(!st.empty() && prec(st.top()) > prec(reversedInfixStr[i])){
+                    prefixStr += st.top();
+                    st.pop();
+                }
+                st.push(reversedInfixStr[i]);
             }
         }
-        else{
-            while(!st.empty() && prec(st.top()) > prec(reversedInfixStr[i])){
-                prefixStr += st.top();
-                st.pop();
-            }
-            st.push(reversedInfixStr[i]);
-        }
-    }
     
-    while(!st.empty()){
-        prefixStr += st.top();
-        st.pop();
-    }
+        while(!st.empty()){
+            prefixStr += st.top();
+            st.pop();
+        }
 
-    string finalPrefixStr;
-    for(int i=prefixStr.length()-1; i>=0; i--){
-        finalPrefixStr += prefixStr[i];
+        string finalPrefixStr;
+        for(int i=prefixStr.length()-1; i>=0; i--) finalPrefixStr += prefixStr[i];
+        return finalPrefixStr;
     }
-    return finalPrefixStr;
-}
+};
 
 // Balanced Paranthesis Problem
 bool balancedParanthesis(string str){
@@ -335,22 +324,26 @@ bool balancedParanthesis(string str){
 }
 
 // Delete middle element from a stack
-void solve(stack<int> &st, int size, int count){
-    if(count == size/2){
+class DeleteMiddle{
+private:
+    void solve(stack<int> &st, int size, int count){
+        if(count == size/2){
+            st.pop();
+            return;
+        }
+
+        int num = st.top();
         st.pop();
-        return;
+
+        solve(st, size, count+1);
+        st.push(num);
     }
 
-    int num = st.top();
-    st.pop();
-
-    solve(st, size, count+1);
-    st.push(num);
-}
-
-void deleteMiddle(stack<int> &st, int size){
-    solve(st, size, 0);
-}
+public:
+    void deleteMiddle(stack<int> &st, int size){
+        solve(st, size, 0); 
+    }
+};
 
 // Insert an element at the bottom of the stack
 void insertAtBottom(stack<int> &st, int val){
@@ -378,28 +371,32 @@ void reverseStack(stack<int> &st){
 }
 
 // Sort a stack
-void sortedInsert(stack<int> &st, int num){
-    if(st.empty() || st.top() < num){
-        st.push(num);
-        return;
+class SortStack{
+private:
+    void sortedInsert(stack<int> &st, int num){
+        if(st.empty() || st.top() < num){
+            st.push(num);
+            return;
+        }
+
+        int n = st.top();
+        st.pop();
+
+        sortedInsert(st, num);
+        st.push(n);
     }
 
-    int n = st.top();
-    st.pop();
+public:
+    void sortStack(stack<int> &st){
+        if(st.empty()) return;
 
-    sortedInsert(st, num);
-    st.push(n);
-}
+        int num = st.top();
+        st.pop();
 
-void sortStack(stack<int> &st){
-    if(st.empty()) return;
-
-    int num = st.top();
-    st.pop();
-
-    sortStack(st);
-    sortedInsert(st, num);
-}
+        sortStack(st);
+        sortedInsert(st, num);
+    }
+};
 
 // Next Smaller Element
 vector<int> nextSmallerElement(vector<int> vec, int size){
