@@ -208,6 +208,7 @@ int firstMissingPositive(int *arr, int len){
     return (len+1);
 }
 
+// Function to swap alternate elements in the given array
 void swapAlternate(int *arr, int size){
     if(size % 2 == 0){
         for(int i=0; i<size; i+=2) swap(arr[i],arr[i+1]);
