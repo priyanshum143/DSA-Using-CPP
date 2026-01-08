@@ -186,62 +186,43 @@ public:
 #include <stack>
 class Queue{
 private:
-    stack <int> st1;
-    stack <int> st2;
+    stack<int> st1;
+    stack<int> st2;
 
 public:
-    void enqueue(int val){
-        if(!st2.empty()){
-            while(!st2.empty()){
-                st1.push(st2.top());
-                st2.pop();
-            }
+    void push(int ele){
+        while(!st1.empty()){
+            st2.push(st1.top());
+            st1.pop();
         }
-        st1.push(val);
+        st1.push(ele);
+
+        while(!st2.empty()){
+            st1.push(st2.top());
+            st2.pop();
+        }
+        return;
     }
 
-    void dequeue(){
-        if(st1.empty() && st2.empty()){
-            cout << "Queue Underflow" << endl;
+    void pop(){
+        if(st1.empty()){
+            cout << "Queue is already empty." << endl;
+            return;
         }
-        else if(st2.empty()){
-            while(!st1.empty()){
-                st2.push(st1.top());
-                st1.pop();
-            }
-            st2.pop();
-        }
-        else if(!st2.empty()){
-            st2.pop();
-        }
+
+        st1.pop();
     }
 
     int front(){
-        if(st1.empty() && st2.empty()){
-            cout << "Queue is Empty" << endl;
+        if(st1.empty()){
+            cout << "Queue is empty." << endl;
             return -1;
         }
-        else if(st2.empty()){
-            while(!st1.empty()){
-                st2.push(st1.top());
-                st1.pop();
-            }
-            return st2.top();
-        }
-        else if(!st2.empty()){
-            return st2.top();
-        }
-        else{
-            return -1;
-        }
+
+        return st1.top();
     }
 
-    bool isEmpty(){
-        if(st1.empty() && st2.empty()){
-            return true;
-        }
-        return false;
-    }
+    bool isEmpty() { return st1.empty(); }
 };
 */
 
